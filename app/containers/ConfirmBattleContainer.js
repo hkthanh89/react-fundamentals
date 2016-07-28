@@ -10,7 +10,7 @@ var ConfirmBattleContainer = React.createClass({
     console.log('getInitialState');
     return { 
       isLoading: true, 
-      playerInfo: []
+      playersInfo: []
     }
   },
   componentWillMount: function () {
@@ -27,9 +27,17 @@ var ConfirmBattleContainer = React.createClass({
         console.log('PLAYERS', players)
         this.setState({
           isLoading: false,
-          playerInfo: [players[0], players[1]]
+          playersInfo: [players[0], players[1]]
         })
       }.bind(this))
+  },
+  handleInitiateBattle: function () {
+    this.context.router.push({
+      pathname: '/results',
+      state: {
+        playersInfo: this.state.playersInfo
+      }
+    }); 
   },
   componentWillReceiveProps: function () {
     console.log('componentWillReceiveProps')
@@ -42,7 +50,8 @@ var ConfirmBattleContainer = React.createClass({
     return (
       <ConfirmBattle 
         isLoading={this.state.isLoading}
-        playerInfo={this.state.playerInfo} />
+        onInitiateBattle={this.handleInitiateBattle}
+        playersInfo={this.state.playersInfo} />
     )
   }
 });
